@@ -48,12 +48,12 @@ class Question < ActiveRecord::Base
   private
 
   def squeeze_space
-    self.title.squeeze!(" ")
-    self.body.squeeze!(" ")
+    self.title.squeeze!(" ") if title
+    self.body.squeeze!(" ") if body
   end
 
   def cap_title
-    self.title = title.capitalize
+    self.title = title.capitalize if title
   end
 
   def set_defaults

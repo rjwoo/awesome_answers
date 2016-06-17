@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:show, :index]
+  before_action :authorize_owner, only: [:edit, :destroy, :update]
 
   def new
     @question = Question.new
@@ -62,4 +63,13 @@ class QuestionsController < ApplicationController
     redirect_to new_session_path, alert: "Please sign in" unless user_signed_in?
   end
 
+  def authorize_owner
+    if can? :manage, @question
+      redirect_to root_path, alert: "Access Denied"
+    end
+  end
+
+  def authorize_owner
+    redirect_to root_path, alert: "Access Denied" unless can? :manage, @question
+  end
 end
