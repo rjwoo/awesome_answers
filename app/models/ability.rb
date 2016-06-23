@@ -13,6 +13,10 @@ class Ability
       q.user == user
     end
 
+    can :destroy, Like do |l|
+      l.user == user
+    end
+
     if user.is_admin?
       # this means that if a user has the 'is_admin' field set to 'true' that user will be able to manage all the models we have.
       can :manage, :all

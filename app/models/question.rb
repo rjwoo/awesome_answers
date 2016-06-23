@@ -10,6 +10,12 @@ class Question < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
+  has_many :likes, dependent: :destroy
+  has_many :liking_users, through: :likes, source: :user
+
+  has_many :votes, dependent: :destroy
+  has_many :voting_users, through: :votes, source: :user
+
   validates(:title, {presence: true, uniqueness: true})
 
   # by having the option: uniqueness: {scope: :title} it ensures that the body
@@ -43,6 +49,33 @@ class Question < ActiveRecord::Base
 
   def new_first_answers
     answers.order(created_at: :desc)
+  end
+
+  def liked_by?(user)
+
+    likes.exists?(user: user)
+    # we already have access to question because we're in the question controller
+  end
+
+  def like_for(user)
+    # likes.where(question: @question, user: current_user).first
+    likes.find_by_user_id user
+  end
+
+  def voted_by?(user)
+    votes.exists?(user: user)
+  end
+
+  def vote_for(user)
+    votes.find_by_user_id user
+  end
+
+  def voted_up_by?(user)
+    voted_by?(user) && vote_for(user).is_up?
+  end
+
+  def voted_down_by?(user)
+    voted_by?(user) && !vote_for(user).is_up?
   end
 
   private

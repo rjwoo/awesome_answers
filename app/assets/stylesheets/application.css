@@ -13,4 +13,9 @@
  *= require questions
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
+
+ h1 {
+   text-align: center;
+ }

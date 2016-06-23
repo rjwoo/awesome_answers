@@ -6,15 +6,6 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
   end
 
-  resources :questions
-  # get    "/questions/new"        => "questions#new",     as: :new_question
-  # post   "/questions"            => "questions#create",  as: :questions
-  # get    "/questions/:id"        => "questions#show",    as: :question
-  # get    "/questions"            => "questions#index"
-  # get    "/questions/:id/edit"   => "questions#edit",    as: :edit_question
-  # patch   "/questions/:id"       => "questions#update"
-  # delete "/questions/:id"        => "questions#destroy"
-
   # this defines a route that specifies if we get a request that has a GET
   # HTTP VERB with '/about' url, use the HomeController with about action (method)
   get "/about"  => "home#about"
@@ -23,20 +14,36 @@ Rails.application.routes.draw do
   # note that helpers are only for the URL portion of the route and has nothing
   # to do with the HTTP verb. Also note that a URL helper must be unique
   resources :questions do
-    # this will define a route that will be '/questions/search' and will point to the questions controller 'search action in that controller.
-    # on: :collection makes the route not have an 'id' or 'question_id' on it
-    get :search, on: :collection
+  resources :votes, only: [:create, :update, :destroy]
 
-    # this will generate a route '/questions/:id/flag' and it will point to questions controller 'flag' action.
-    # on: :member makes the route include an ':id' in it similar to the 'edit'
-    post :flag, on: :member
+  # this will define a route that will be `/questions/search` and it will
+  # point to the questions controller `search` action in that controller.
+  # on: :collection makes the route not have an `id` or `question_id` on it
+  get :search, on: :collection
 
-    post :mark_done
+  # this will generate a route `/questions/:id/flag` and it will point to
+  # questions controller `flag` action.
+  # on: :member makes the route include an `:id` in it similar to the `edit`
+  post :flag, on: :member
 
-    # will make all the answers routes nested within 'questions' which means all the answers routes will be prepended with '/questions/:question_id'
-    resources :answers, only:[:create, :destroy]
+  post :mark_done
 
-  end
+  # will will make all the answers routes nested within `questions` which
+  # means all the answers routes will be prepended with `/questions/:question_id`
+  resources :answers, only: [:create, :destroy]
+
+  resources :likes, only: [:create, :destroy]
+
+end
+
+  resources :likes, only: [:index]
+  # get    "/questions/new"        => "questions#new",     as: :new_question
+  # post   "/questions"            => "questions#create",  as: :questions
+  # get    "/questions/:id"        => "questions#show",    as: :question
+  # get    "/questions"            => "questions#index"
+  # get    "/questions/:id/edit"   => "questions#edit",    as: :edit_question
+  # patch   "/questions/:id"       => "questions#update"
+  # delete "/questions/:id"        => "questions#destroy"
 
   get "/greet/:name" => "home#greet", as: :greet
 

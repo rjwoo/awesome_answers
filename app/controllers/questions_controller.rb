@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.order(created_at: :desc)
+    @questions = Question.order(created_at: :desc).page(params[:page]).per(7)
   end
 
   def edit
@@ -59,17 +59,12 @@ class QuestionsController < ApplicationController
     @question = Question.find params[:id]
   end
 
-  def authenticate_user!
-    redirect_to new_session_path, alert: "Please sign in" unless user_signed_in?
-  end
-
-  def authorize_owner
-    if can? :manage, @question
-      redirect_to root_path, alert: "Access Denied"
-    end
-  end
-
   def authorize_owner
     redirect_to root_path, alert: "Access Denied" unless can? :manage, @question
   end
+
+  def current_user_vote
+    @question.vote_for(current_user)
+  end
+  helper_method :current_user_vote
 end
