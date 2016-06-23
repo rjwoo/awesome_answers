@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem "faker", github: "stympy/faker"
 gem "font-awesome-rails"
 gem 'kaminari'
+gem "letter_opener", :group => :development
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
