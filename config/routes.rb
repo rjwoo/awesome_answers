@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create] do
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
   # passing the 'as:' option enables us to have a url/path helper for this route
   # note that helpers are only for the URL portion of the route and has nothing
   # to do with the HTTP verb. Also note that a URL helper must be unique
-  resources :questions do
+resources :questions do
   resources :votes, only: [:create, :update, :destroy]
 
   # this will define a route that will be `/questions/search` and it will

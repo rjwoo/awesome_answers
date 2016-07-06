@@ -4,6 +4,8 @@ gem "faker", github: "stympy/faker"
 gem "font-awesome-rails"
 gem 'kaminari'
 gem "letter_opener", :group => :development
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
