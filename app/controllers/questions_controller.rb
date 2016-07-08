@@ -23,17 +23,25 @@ class QuestionsController < ApplicationController
   def show
     @question.increment!(:view_count)
     @answer = Answer.new
+    respond_to do |format|
+      format.html
+      format.json { render json: {question: @question, answers: @question.answers} }
+    end
   end
 
   def index
     @questions = Question.order(created_at: :desc).page(params[:page]).per(7)
+    respond_to do |format|
+      format.html
+      format.json { render json: @questions }
+    end
   end
 
   def edit
   end
 
   def update
-
+    @question.slug = nil 
     if @question.update question_params
       redirect_to question_path(@question), notice: "Question updated"
     else

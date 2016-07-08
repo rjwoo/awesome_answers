@@ -1,7 +1,5 @@
-<%= @answer.errors.full_messages.join(", ") %>
-<%= form_for [@question, @answer], remote: true do |f| %>
-  <div>
-    <%= f.text_area :body %>
-  </div>
-  <%= f.submit %>
+<%#= @answer.errors.full_messages.join(", ") %>
+<%= simple_form_for [@question, @answer], remote: true do |f| %>
+  <%= f.input :body %>
+  <%= f.button :submit, class: "btn-primary" %>
 <% end %>

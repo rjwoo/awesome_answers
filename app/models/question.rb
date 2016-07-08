@@ -40,6 +40,9 @@ class Question < ActiveRecord::Base
   # before_save      :cap_title
   # before_save      :squeeze_space
 
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders, :history]
+
   # scope :search, lambda {|word| where("title ILIKE ? OR body ILIKE ?", "%#{word}%", "%#{word}%")}
   def self.search(word)
     where("title ILIKE ? OR body ILIKE ?", "%#{word}%", "%#{word}%")
@@ -92,6 +95,10 @@ class Question < ActiveRecord::Base
   def vote_sum
     up_votes - down_votes
   end
+
+  # def to_param
+  #   "#{id}-#{title}".parameterize
+  # end
 
   private
 

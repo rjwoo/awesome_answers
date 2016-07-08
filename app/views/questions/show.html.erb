@@ -17,40 +17,7 @@
                 class: "like-icon" %>
     <% end %>
 
-
-<!-- <div class="vote"> -->
-<% if @question.voted_up_by?(current_user) %>
-  <%# Case when use voted up %>
-  <%= link_to "Undo Vote Up",
-              question_vote_path(@question, current_user_vote),
-              method: :delete,
-              data: {disable_with: "...."} %>
-  (<%= @question.vote_sum %>)
-  <%= link_to "Vote Down",
-              question_vote_path(@question, current_user_vote,
-                                {vote: {is_up: false}}),
-              method: :patch %>
-<% elsif @question.voted_down_by?(current_user) %>
-  <%= link_to "Vote Up",
-              question_vote_path(@question, current_user_vote,
-                                {vote: {is_up: true}}),
-              method: :patch%>
-  (<%= @question.vote_sum %>)
-  <%= link_to "Undo Vote Down",
-              question_vote_path(@question, current_user_vote),
-              method: :delete,
-              data: {disable_with: "...."} %>
-  |
-<% else %>
-  <%= link_to "Vote Up",
-              question_votes_path(@question, vote: {is_up: true}),
-              method: :post %>
-  (<%= @question.vote_sum %>)
-  <%= link_to "Vote Down",
-              question_votes_path(@question, vote: {is_up: false}),
-              method: :post %>
-<% end %>
-<!-- </div><br> -->
+<%= render "/questions/vote", question: @question %>
 
 <!-- <div class="edit_delete"> -->
   <% if can? :manage, @question %>
@@ -58,7 +25,7 @@
     <%= link_to "Delete", question_path(@question),
                         method: :delete,
                         data: {confirm: "Are you sure?"} %>
-    <% end %>
+  <% end %>
 <!-- </div> -->
 
 <p>Tags: <%= @question.tags.map { |t| t.title }.join(", ") %></p>

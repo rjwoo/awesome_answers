@@ -34,6 +34,12 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'cancancan'
 
+gem 'rack-cors', :require => 'rack/cors'
+gem 'friendly_id'
+gem 'simple_form'
+gem 'bootstrap-sass'
+gem 'quiet_assets'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
