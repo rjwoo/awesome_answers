@@ -6,6 +6,7 @@ gem 'kaminari'
 gem "letter_opener", :group => :development
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
+gem 'active_model_serializers'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -39,6 +40,9 @@ gem 'friendly_id'
 gem 'simple_form'
 gem 'bootstrap-sass'
 gem 'quiet_assets'
+gem 'carrierwave'
+gem "mini_magick"
+gem 'fog'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

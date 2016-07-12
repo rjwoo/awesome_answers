@@ -26,6 +26,10 @@
                         method: :delete,
                         data: {confirm: "Are you sure?"} %>
   <% end %>
+
+<div class="image">
+  <%= image_tag @question.image.url(:medium) %>
+</div>
 <!-- </div> -->
 
 <p>Tags: <%= @question.tags.map { |t| t.title }.join(", ") %></p>

@@ -43,6 +43,8 @@ class Question < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders, :history]
 
+  mount_uploader :image, ImageUploader
+
   # scope :search, lambda {|word| where("title ILIKE ? OR body ILIKE ?", "%#{word}%", "%#{word}%")}
   def self.search(word)
     where("title ILIKE ? OR body ILIKE ?", "%#{word}%", "%#{word}%")
@@ -99,6 +101,13 @@ class Question < ActiveRecord::Base
   # def to_param
   #   "#{id}-#{title}".parameterize
   # end
+
+  # delegate :name, to: :category, prefix: true
+  def category_name
+    category.name
+  end
+
+  delegate :first_name, :last_name, to: :user, prefix: true
 
   private
 

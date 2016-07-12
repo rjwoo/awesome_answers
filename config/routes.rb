@@ -14,28 +14,48 @@ Rails.application.routes.draw do
   # passing the 'as:' option enables us to have a url/path helper for this route
   # note that helpers are only for the URL portion of the route and has nothing
   # to do with the HTTP verb. Also note that a URL helper must be unique
-resources :questions do
-  resources :votes, only: [:create, :update, :destroy]
+
+  # "/api/v1/questions" -> index
+  # get "/api/v1/questions" => "api/v1/questions#index"
+
+  # this will prepend all the urls for the questions with /api/v1 but it
+  # will still point to the questions_controller.rb
+  # scope :api do
+  #   scope :v1 do
+  #     resources :questions, only: [:index, :show]
+  #   end
+  # end
+
+  # this will prepend all the urls for the questions with /api/v1 but it
+  # will point ot the api/v1/questions_controller.rb
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :questions, only: [:index, :show]
+    end
+  end
+
+  resources :questions do
+    resources :votes, only: [:create, :update, :destroy]
 
   # this will define a route that will be `/questions/search` and it will
   # point to the questions controller `search` action in that controller.
   # on: :collection makes the route not have an `id` or `question_id` on it
-  get :search, on: :collection
+    get :search, on: :collection
 
   # this will generate a route `/questions/:id/flag` and it will point to
   # questions controller `flag` action.
   # on: :member makes the route include an `:id` in it similar to the `edit`
-  post :flag, on: :member
+    post :flag, on: :member
 
-  post :mark_done
+    post :mark_done
 
   # will will make all the answers routes nested within `questions` which
   # means all the answers routes will be prepended with `/questions/:question_id`
-  resources :answers, only: [:create, :destroy]
+    resources :answers, only: [:create, :destroy]
 
-  resources :likes, only: [:create, :destroy]
+    resources :likes, only: [:create, :destroy]
 
-end
+  end
 
   resources :likes, only: [:index]
   # get    "/questions/new"        => "questions#new",     as: :new_question
