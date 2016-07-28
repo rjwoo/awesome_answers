@@ -11,7 +11,15 @@ class QuestionsController < ApplicationController
     @question = Question.new question_params
     @question.user = current_user
     if @question.save
-      # redirect_to question_path({id: @question.id})
+      if @question.tweet_it
+        client = Twitter::REST::Client.new do |config|
+          config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
+          config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
+          config.access_token        = current_user.twitter_token
+          config.access_token_secret = current_user.twitter_secret
+        end
+        client.update "#{@question.body}"
+      end
       flash[:notice] = "Question created!"
       redirect_to question_path(@question), notice: "Question created!"
     else
@@ -60,11 +68,11 @@ class QuestionsController < ApplicationController
     # In the line below we're using the 'strong parameters' feature of Rails
     # In the line we're "requiring" that the "params" hash has a key
     # called question and we're only allowing the 'title' and the 'body' to be fetched.
-    params.require(:question).permit(:title, :body, :category_id, :image, {tag_ids: []})
+    params.require(:question).permit(:title, :tweet_it, :body, :category_id, :image, {tag_ids: []})
   end
 
   def find_question
-    @question = Question.find params[:id]
+    @question = Question.find(params[:id]).decorate
   end
 
   def authorize_owner

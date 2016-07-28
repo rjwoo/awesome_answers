@@ -7,6 +7,10 @@ gem "letter_opener", :group => :development
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 gem 'active_model_serializers'
+gem 'omniauth-twitter'
+gem 'twitter'
+
+gem 'draper'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -43,6 +47,8 @@ gem 'quiet_assets'
 gem 'carrierwave'
 gem "mini_magick"
 gem 'fog'
+
+gem 'react-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

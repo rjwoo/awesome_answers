@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :users, only: [:new, :create]
+  get "/auth/twitter", as: :sign_in_with_twitter
+  get "auth/twitter/callback" => "callbacks#twitter"
+
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end
@@ -30,7 +33,9 @@ Rails.application.routes.draw do
   # will point ot the api/v1/questions_controller.rb
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :questions, only: [:index, :show]
+      resources :questions, only: [:index, :show] do
+        resources :answers, only: [:create]
+      end
     end
   end
 
